@@ -1,0 +1,37 @@
+working with API
+1- resources :books, only: :index #for routing in routs.rb
+2- rails g controller BookController index. #controller for books
+3- multiple time to check
+   curl http://localhost:3000/books -v #checking the values database
+4- rails g model Books title:string author:string #for backend means database etc
+5- rails db:migrate #to push the migration databases
+6- rails c #use for Loading development environment (Rails 8.0.0)
+    Book.create!(title:"ROR", author:"sadat") # for creating book in database
+7- curl http://localhost:3000/books # for checking the status of database 
+   result ="[{"id":1,"title":"ROR","author":"sadat","created_at":"2024-11-29T06:04:40.093Z","updated_at":"2024-11-29T06:04:40.093Z"}]"
+8- rails routes | grep book #for checking routes for book 
+   result = "books GET  /books(.:format)"
+   now add new route for create in roures.rb :create #this use for creartion
+   rails routes | grep book #for checking routes for book
+   books GET  /books(.:format)                                                                                  books#index
+         POST /books(.:format)
+9- now add create method and logic to create book
+   run commad in the terminal to check either it working or not
+   $ curl --header "Content-Type: application/json" -d '{"title": "The Great Gatsby", "author": "F. Scott Fitzgerald"}' http://localhost:3000/books
+10 validation
+   validates in the book file, 
+   validates :title, presence: true, length: { minimum: 5 }
+  validates :author, presence: true, length: { minimum: 5 }
+11-Delete operation
+   add destroy in routes file,
+   define destroy method in BookController
+   check in bash command      rails c
+   then Books.all
+   then book.first then check id and exit
+   run delete quere. "curl --header "content-type: application/jason" --request DELETE http://localhost:3000/books/1 "
+   then check again the first book and their id or Book.find(1)
+12-now add exaption handling for delete
+   add rescue_from ActiveRecord::RecordNotdestroyed, with: :not_destroyed at the top add not_destroyed method
+
+
+
