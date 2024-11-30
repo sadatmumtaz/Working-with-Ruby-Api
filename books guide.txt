@@ -31,7 +31,12 @@ working with API
    run delete quere. "curl --header "content-type: application/jason" --request DELETE http://localhost:3000/books/1 "
    then check again the first book and their id or Book.find(1)
 12-now add exaption handling for delete
-   add rescue_from ActiveRecord::RecordNotdestroyed, with: :not_destroyed at the top add not_destroyed method
+   add rescue_from ActiveRecord::RecordNotdestroyed, with: :not_destroyed at the applicationcontroller add not_destroyed method
+13-for version like we define new dir in controller api/v1 and BookController to that # module API and module V1 added
+   then check working of api by " curl http://localhost:3000/api/v1/books" command
+14-test with rspec
+   add gem 'rspec-rails' and run bundle
+   then run command rails generate rspec:install
 
 
 
