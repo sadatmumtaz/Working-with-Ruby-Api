@@ -38,5 +38,23 @@ working with API
    add gem 'rspec-rails' and run bundle
    then run command rails generate rspec:install
 
+15- assosiation
+   we creat and migrate author
+   we use "bin/rails g migration add_author_to_books author:references" for references and change some validation before migration
+   then remove author from book using "bin/rails g migration remove_author_from_books author:string" and migrate
+
+   then add author and their books using git bash
+   'rails c'
+   'author = Author.create!(first_name:"sadat", last_name:"khan", age:2, gender:"male")'
+   'book1 = Book.create!(title:'the free man with no resources', author: author)'
+
+16- controller representer
+      modify BookController  index
+      make representer folder and inside that we add books_representer.rb Fitzgerald
+
+16-
+
+
+
 
 

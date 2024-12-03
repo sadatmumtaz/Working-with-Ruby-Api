@@ -109,6 +109,8 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.8.2)
+    jwt (2.9.3)
+      base64
     kamal (2.3.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -207,6 +209,10 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.12)
       io-console (~> 0.5)
+    rspec (3.13.0)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
     rspec-core (3.13.2)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.3)
@@ -305,9 +311,11 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
+  jwt
   kamal
   puma (>= 5.0)
   rails (~> 8.0.0)
+  rspec (~> 3.13)
   rspec-rails
   rubocop-rails-omakase
   solid_cable

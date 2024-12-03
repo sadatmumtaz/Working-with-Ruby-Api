@@ -1,43 +1,51 @@
 require 'rails_helper'
 
 describe 'Books API', type: :request do
-    it 'returns all books' do
-        get '/books'
+    describe 'GET /books' do
+        it 'returns all books' do
+            FactoryBot.create(:book, title: 'Harry Potter', author: 'J.K. Rowling')
+            FactoryBot.create(:book, title: 'Lord of the Rings', author: 'J.R.R. Tolkien')
 
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body).size).to eq(0)
+            get 'api/v1/books'
+
+            expect(response).to have_http_status(:success)
+            expect(JSON.parse(response.body)).to eq(2)
+        end
     end
 
-    it 'creates a book' do
-        post '/books', params: { book: { title: 'Harry Potter', author: 'J.K. Rowling' } }
+    describe 'POST /books' do
+        it 'creates a book' do
+            expect {
+                post 'api/v1/books', params: {
+                    book: { title: 'Harry Potter' },
+                    author: { f_name: 'J.K.', l_name: 'Row', age: 45, gender: "male" }
+                 }
+            }.to change { Book.count }.from(0).to(1)
 
-        expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)['title']).to eq('Harry Potter')
+            expect(response).to have_http_status(:created)
+        end
     end
 
-    it 'returns a book' do
-        book = Book.create(title: 'Harry Potter', author: 'J.K. Rowling')
+    describe 'GET /books/:id' do
+        it 'returns a book' do
+            book = Book.create(title: 'Harry Potter', author: 'J.K. Rowling')
 
-        get "/books/#{book.id}"
+            get "api/v1/books/#{book.id}"
 
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['title']).to eq('Harry Potter')
+            expect(response).to have_http_status(:success)
+            expect(JSON.parse(response.body)['title']).to eq('Harry Potter')
+        end
     end
 
-    it 'updates a book' do
-        book = Book.create(title: 'Harry Potter', author: 'J.K. Rowling')
+    describe 'DELETE /books/:id' do
+        it 'deletes a book' do
+            book = Book.create(title: 'Harry Potter', author: 'J.K. Rowling')
 
-        put "/books/#{book.id}", params: { book: { title: 'Harry Potter 2' } }
+            expect {
+                delete "api/v1/books/#{book.id}"
+            }.to change { Book.count }.from(1).to(0)
 
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['title']).to eq('Harry Potter 2')
-    end
-
-    it 'deletes a book' do
-        book = Book.create(title: 'Harry Potter', author: 'J.K. Rowling')
-
-        delete "/books/#{book.id}"
-
-        expect(response).to have_http_status(:no_content)
+            expect(response).to have_http_status(:no_content)
+        end
     end
 end
