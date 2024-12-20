@@ -4,9 +4,14 @@ module Api
             rescue_from ActionController::ParameterMissing, with: :parameter_missing
 
             def create
+              let(:user) { FactoryBot.create(:user, user_name: "book101") }
+
+
               p params.require(:password).inspect
 
               user = User.find_by(user_name: params.require(:user_name))
+
+              AuthenticationTokenService.call(user.user_name, user.password)
 
               render json: { token: "123" }, status: :created
 
